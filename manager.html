@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PMS – Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f2f4f7;--sf:#fff;--ink:#17212b;--mu:#66707c;--ln:#e1e5ea;--soft:#f7f8fa;--pr:#1d5fd1;--emp:#1d5fd1;--mgr:#b45309;--rev:#0f766e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px;background:var(--sf);border-bottom:1px solid var(--ln)}
+h1{font-size:18px;margin:0}h2{font-size:16px;margin:0 0 10px}.mu{color:var(--mu);font-size:13px}
+.seg{display:inline-flex;border:1px solid var(--ln);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:none;padding:7px 16px;font:inherit;color:var(--mu);cursor:pointer}
+.seg button.on{background:var(--pr);color:#fff}
+.me{display:flex;align-items:center;gap:8px;font-weight:600}
+.av{width:32px;height:32px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:13px}
+.roles{display:flex;background:var(--sf);border-bottom:1px solid var(--ln);padding:0 20px;overflow-x:auto}
+.roles a{text-decoration:none;border:0;background:none;padding:10px 20px 8px;font:inherit;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;text-align:left;color:var(--mu);white-space:nowrap}
+.roles a.on{color:var(--ink);border-color:var(--c)}.roles small{display:block;font-weight:400;font-size:12px}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:16px;margin-bottom:16px}
+.ov{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+th{text-align:left;font-weight:600;color:var(--mu);font-size:13px;padding:8px;border-bottom:2px solid var(--ln);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--ln);vertical-align:top}
+td small{display:block;color:var(--mu);font-size:12.5px}
+th.e{border-color:var(--emp);color:var(--emp)}th.m{border-color:var(--mgr);color:var(--mgr)}th.r{border-color:var(--rev);color:var(--rev)}
+tr.tot td{font-weight:700;background:var(--soft)}
+.rc{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;color:#fff;font-weight:700;font-size:13px}
+.r0{background:var(--ln);color:var(--mu)}.r1{background:#dc2626}.r2{background:#d97706}.r3{background:#65a30d}.r4{background:#16a34a}.r5{background:#0f766e}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:6px;padding:6px 8px}
+input[type=number]{width:84px}td input[type=text]{width:100%;min-width:140px;box-sizing:border-box}
+textarea{width:100%;box-sizing:border-box;min-height:64px}
+:disabled{opacity:.6}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--pr);outline-offset:2px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:8px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.g{background:none;color:var(--ink);border:1px solid var(--ln)}.btn.s{padding:5px 12px}.btn:disabled{cursor:not-allowed}
+.bar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.steps{display:flex;gap:8px;margin-bottom:16px}
+.st{flex:1;padding:8px 2px 0;border-top:4px solid var(--ln);font-size:13px;color:var(--mu)}
+.st.ok{border-color:var(--rev);color:var(--ink)}.st.now{border-color:var(--pr);color:var(--ink);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.sc{border-left:4px solid var(--c);padding:6px 12px;background:var(--soft);border-radius:6px}
+.sc b{font-size:26px;display:block;line-height:1.2}.sc span{color:var(--mu);font-size:13px}
+.tag{padding:2px 10px;border-radius:99px;font-size:12.5px;background:var(--soft);border:1px solid var(--ln);white-space:nowrap}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:99px;padding:6px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--pr);color:#fff}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.info b{display:block;font-size:14px}
+#t{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--pr);color:#fff;padding:10px 16px;border-radius:8px;z-index:9;max-width:90%}
+@media(max-width:600px){.wrap{padding:12px}.top{padding:12px}.st{font-size:11.5px}}
+</style></head><body>
+<div id="app"></div><div id="t" hidden></div>
+<script>
+const K=[["On time error free payroll verification","On or before 7th of every month.",25,100],["On time enrolment of employees with UAN","Within 2 days of receipt of application.",25,100],["Monitoring of Corporate Office attendance and ensure timely entries","Daily attendance monitoring, 100% timely entries.",15,100],["Error free issuance of appointment orders and onboarding","Zero-error appointment orders and joining formalities.",15,100],["Hassle free international travel arrangements and documentation","Visa, tickets and documents without rework.",15,100],["HR Head’s assessment on overall performance, attendance, punctuality","Qualitative",5,100]];
+const C=[["Customer Focus","Keeps the customer’s voice central to every decision."],["Leadership","Guides and influences people toward organisational goals."],["Energy & Drive","Sustains enthusiasm and effort through challenges."],["Innovation","Finds creative ways to improve customers and processes."],["Accountability","Owns actions and delivers results."],["Teamwork / Collaboration","Works with others toward a common goal."],["Problem Solving","Analyses issues and resolves them effectively."],["Team Leadership","Inspires and develops team members."],["Bias for Results","Urgency to decide, follow up and stay on results."],["Respect","Values diverse people and cultures; communicates sincerely."]];
+const RS=["","Poor / Unsatisfactory","Average – Needs Improvement","Meets Expectations","Exceeds Expectations","Outstanding"];
+const SL={draft:"Awaiting self-assessment",self:"Submitted – manager review pending",done:"Manager review done"};
+const dg=s=>[...s].map(Number),rot=(s,k)=>s.slice(k)+s.slice(0,k),AV=[0,50,70,85,100,115];
+const band=p=>p>=110?5:p>=95?4:p>=80?3:p>=65?2:p>0?1:0;
+function mk(e,m,r,s,k){const o={e:dg(e),m:dg(m),s,ce:dg(rot("4411332231",k)),cm:dg(rot("4341325555",k)),ec:K.map(_=>""),mc:K.map(_=>""),pr:"Yes",inc:"Yes",fc:"",fin:0,fd:"Pending",on:"",ach:"",sign:""};o.a=o.e.map(v=>AV[v]);if(s=="draft"||s=="self")o.m=dg("000000");if(s=="draft"||s=="self")o.cm=o.cm.map(_=>0);return o}
+const E=[
+["Gopu S.",3174,"Sr. Executive – HR & Admn","HR · Corporate Office",mk("543215","000000","","self",0),mk("443343","000000","","draft",0)],
+["Priya Ramesh",3201,"Executive – HR Corp","HR · Corporate Office",mk("443434","343434","","done",1),mk("434444","000000","","self",1)],
+["Karthik M.",3188,"Sr. Engineer – R&D Design","R&D · Plant 2",mk("344333","333333","","done",2),mk("443443","343443","","done",2)],
+["Divya Lakshmi",3260,"Executive – HR Corp","HR · Corporate Office",mk("554545","444444","","done",3),mk("545455","000000","","self",3)],
+["Arun Kumar V.",3142,"Manager – Technical","Technical Lab",mk("333433","323433","","done",4),mk("434343","343433","","done",4)],
+["Meena S.",3275,"Engineer – Sales (SZ)","Sales · South Zone",mk("454444","444444","","done",5),mk("444444","444343","","done",5)]
+].map(([n,id,role,dept,H1,H2])=>({n,id,role,dept,H1,H2,Y:{r:dg("000000"),cr:C.map(_=>0),fin:0,fd:"Pending",on:"",fc:"",s:"pending"}}));
+Object.assign(E[4].Y,{r:dg("343333"),cr:dg(rot("4421323231",4)),fin:3,fd:"Completed",on:"20 Sep 2026",fc:"Consistent delivery through the year.",s:"done"});
+const RL={emp:["Employee Self","247 employees","Gopu S. [3174]","--emp"],mgr:["Manager","73 appraisers","Subash Chander S. [1833]","--mgr"],rev:["Reviewer","20 reviewers","Thomas K Abraham [2418]","--rev"]};
+const S={role:"emp",per:"H2",tab:"goals",m:null,r:null,q:"",f:"p"};
+const $=s=>document.querySelector(s),X=id=>E.find(x=>x.id==id)[S.per],P=id=>E.find(x=>x.id==id);
+const sc=a=>a.every(v=>!v)?0:a.reduce((s,v,i)=>s+v*K[i][2]/100,0),av=a=>a.every(v=>!v)?0:a.reduce((s,v)=>s+v,0)/a.length,f2=x=>x?x.toFixed(2):"—";
+const chip=v=>`<span class="rc r${v}" title="${RS[v]||"Not rated"}">${v||"–"}</span>`;
+const sel=(v,js,dis)=>dis?chip(v):`<select onchange="${js}"><option value="0">–</option>${[1,2,3,4,5].map(n=>`<option ${n==v?"selected":""}>${n}</option>`).join("")}</select>`;
+let tt;const toast=m=>{const t=$("#t");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2800)};
+const setR=(id,k,i,v)=>{X(id)[k][i]=+v;draw()};
+const ini=n=>n.replace(/[\[\]\d]/g,"").trim().split(" ").map(w=>w[0]).slice(0,2).join("");
+function steps(d){const L=["Goals set","Self assessment","Manager review","Closed"];
+ const i=d.s=="done"?9:d.s=="draft"?1:d.s=="self"?2:3;return `<div class="steps">${L.map((l,j)=>`<div class="st ${j<i?"ok":j==i?"now":""}">${l}</div>`).join("")}</div>`}
+function scores(d){return `<div class="cards"><div class="sc" style="--c:var(--emp)"><b>${f2(sc(d.e))}</b><span>Your goal score</span></div><div class="sc" style="--c:var(--mgr)"><b>${f2(sc(d.m))}</b><span>Manager goal score</span></div><div class="sc" style="--c:var(--pr)"><b>${f2(av(d.ce))} / ${f2(av(d.cm))}</b><span>Competency (you / manager)</span></div></div>`}
+function head(x){return `<div class="card"><div class="info"><div><span class="mu">Employee</span><b>${x.n} [${x.id}]</b></div><div><span class="mu">Role</span><b>${x.role}</b></div><div><span class="mu">Unit / Function</span><b>${x.dept}</b></div><div><span class="mu">Functional appraiser</span><b>Subash Chander S. [1833]</b></div><div><span class="mu">Reviewer</span><b>Thomas K Abraham [2418]</b></div></div></div>`}
+function comp(id,mode){const x=P(id),d=x[S.per],h2=S.per=="H2";const ed={e:id==3174&&d.s!="done",m:d.s=="self",r:d.s=="mgr"}[mode];
+ return `<div class="card ov"><h2>Competency review</h2><table><tr><th>Competency<th class="e">Employee${mode!="e"?"":""}${mode!="e"?"<th class=m>Manager":""}${mode=="r"&&h2?"<th class=r>Reviewer":""}${mode=="e"?"<th class=m>Manager":""}</tr>${C.map((c,i)=>`<tr><td><b>${c[0]}</b><small>${c[1]}</small><td>${sel(d.ce[i],`setR(${id},'ce',${i},this.value)`,!(mode=="e"&&ed))}${mode=="e"?`<td>${chip(d.cm[i])}`:`<td>${sel(d.cm[i],`setR(${id},'cm',${i},this.value)`,!(mode=="m"&&ed))}`}${mode=="r"&&h2?`<td>${sel(d.cr[i],`setR(${id},'cr',${i},this.value)`,!ed)}`:""}`).join("")}<tr class="tot"><td>Average<td>${f2(av(d.ce))}<td>${f2(av(d.cm))}${mode=="r"&&h2?`<td>${f2(av(d.cr))}`:""}</table></div>`}
+
+const SK="pms_proto_v2",FILES={emp:"pms-employee.html",mgr:"pms-manager.html",rev:"pms-reviewer.html"};
+function load(){try{const s=JSON.parse(localStorage.getItem(SK));if(s&&s.E)s.E.forEach((o,i)=>{if(o.Y){E[i].H1=o.H1;E[i].H2=o.H2;E[i].Y=o.Y}})}catch(e){}}
+function save(){try{localStorage.setItem(SK,JSON.stringify({E:E.map(x=>({H1:x.H1,H2:x.H2,Y:x.Y}))}))}catch(e){}}
+/* ---------- MANAGER ---------- */
+function vMgr(){if(S.m)return mPanel();const n=s=>E.filter(x=>x[S.per].s==s).length;
+ return `<div class="cards"><div class="sc" style="--c:var(--mgr)"><b>${n("self")}</b><span>Ready for your review</span></div><div class="sc" style="--c:var(--emp)"><b>${n("draft")}</b><span>Awaiting self-assessment</span></div><div class="sc" style="--c:var(--pr)"><b>${n("done")}</b><span>Completed</span></div></div>
+ <div class="card ov"><h2>My team – ${S.per} goal review</h2><table><tr><th>Employee<th class=e>Self score<th class=m>My score<th>Status<th></tr>${E.map(x=>{const d=x[S.per];return `<tr><td><b>${x.n} [${x.id}]</b><small>${x.role}</small><td>${f2(sc(d.e))}<td>${f2(sc(d.m))}<td><span class="tag">${SL[d.s]}</span><td><button class="btn s ${d.s=="self"?"":"g"}" ${d.s=="draft"?"disabled":""} onclick="S.m=${x.id};draw()">${d.s=="self"?"Review":"View"}</button>`}).join("")}</table></div>`}
+function mPanel(){const x=P(S.m),d=x[S.per],ed=d.s=="self",h1=S.per=="H1";
+ return `<button class="btn g s" onclick="S.m=null;draw()">← Back to team</button><div style="height:12px"></div>`+head(x)+steps(d)+`<div class="card ov"><h2>Goal review</h2><table><tr><th>KRA / description<th>Weight<th>Target<th class=e>Employee<th class=m>My rating<th>Weighted<th>My comments</tr>${K.map((k,i)=>`<tr><td><b>${k[0]}</b><small>${k[1]}</small><td>${k[2]}%<td>${k[3]}<td>${chip(d.e[i])} <span class="mu">achieved ${d.a[i]}</span><small>${d.ec[i]||""}</small><td>${sel(d.m[i],`setR(${x.id},'m',${i},this.value)`,!ed)}<td>${f2(d.m[i]*k[2]/100)}<td><input type="text" placeholder="Add a comment" value="${d.mc[i]}" ${ed?"":"disabled"} oninput="X(${x.id}).mc[${i}]=this.value">`).join("")}<tr class="tot"><td colspan=3>Total weighted score<td>${f2(sc(d.e))}<td>${f2(sc(d.m))}<td><td></table></div>`+comp(x.id,"m")+`<div class="card"><h2>Recommendations</h2><div class="bar" style="margin:0"><label>Promotion to higher responsibility <select ${ed?"":"disabled"} onchange="X(${x.id}).pr=this.value"><option ${d.pr=="Yes"?"selected":""}>Yes</option><option ${d.pr=="No"?"selected":""}>No</option></select></label><label>Salary increment / correction <select ${ed?"":"disabled"} onchange="X(${x.id}).inc=this.value"><option ${d.inc=="Yes"?"selected":""}>Yes</option><option ${d.inc=="No"?"selected":""}>No</option></select></label></div></div>`+(ed?`<div class="bar"><button class="btn" onclick="mSub(${x.id})">Submit review</button><span class="mu">Closes this half-year review. The reviewer rates once, at year-end.</span></div>`:"")}
+function mSub(id){const d=X(id);if(d.m.some(v=>!v)||d.cm.some(v=>!v)){toast("Rate every KRA and every competency first");return}d.s="done";toast("Review submitted for "+P(id).n);S.m=null;draw()}
+/* ---------- SHELL ---------- */
+const ROLE="mgr";S.role=ROLE;
+function draw(fq){save();const R=RL[ROLE];$("#app").innerHTML=`<div class="top"><div><h1>Performance Management</h1><span class="mu">FY 2025–26 · ${(S.per=="H1"?"H1 · Apr – Sep 2025":"H2 · Oct 2025 – Mar 2026")}</span></div><div class="seg">${["H1","H2"].map(p=>`<button class="${S.per==p?"on":""}" onclick="S.per='${p}';S.m=null;draw()">${p}</button>`).join("")}</div><div class="me" style="--c:var(${R[3]})"><span class="av">${ini(R[2])}</span>${R[2]}<button class="btn g s" onclick="try{localStorage.removeItem(SK)}catch(e){};location.reload()">Reset demo</button></div></div><div class="roles">${Object.entries(RL).map(([k,v])=>`<a class="${k==ROLE?"on":""}" style="--c:var(${v[3]})" href="${FILES[k]}">${v[0]}<small>${v[1]}</small></a>`).join("")}</div><div class="wrap">${vMgr()}</div>`;
+ if(fq){const q=$("#q");q.focus();q.setSelectionRange(99,99)}}
+load();draw();
+document.addEventListener("input",save);document.addEventListener("change",save);
+addEventListener("storage",()=>{load();draw()});addEventListener("focus",()=>{load();draw()});
+</script></body></html>
